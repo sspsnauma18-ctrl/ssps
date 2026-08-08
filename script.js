@@ -1144,80 +1144,58 @@ console.log(
 console.log(
   "Welcome to Swami Shantanand Public School."
 );
-/* =====================================================
-   DIRECTOR 3D EFFECT
-===================================================== */
+/* =========================================
+   PRINCIPAL + DIRECTOR 3D EFFECT
+========================================= */
 
-const directorCard =
-    document.querySelector(".director-card");
-
-const directorPhoto =
-    document.querySelector(".director-photo");
+const leaderCards =
+    document.querySelectorAll(".leader-card");
 
 
-if (directorCard && window.innerWidth > 800) {
+leaderCards.forEach(card => {
 
-    directorCard.addEventListener(
-        "mousemove",
-        function(event) {
+    card.addEventListener("mousemove", function(e) {
 
-            const rect =
-                directorCard.getBoundingClientRect();
-
-            const x =
-                event.clientX - rect.left;
-
-            const y =
-                event.clientY - rect.top;
-
-            const centerX =
-                rect.width / 2;
-
-            const centerY =
-                rect.height / 2;
-
-            const rotateX =
-                (centerY - y) / 100;
-
-            const rotateY =
-                (x - centerX) / 100;
-
-
-            directorCard.style.transform =
-                `
-                perspective(1200px)
-                rotateX(${rotateX}deg)
-                rotateY(${rotateY}deg)
-                translateY(-8px)
-                `;
-
-
-            if (directorPhoto) {
-
-                directorPhoto.style.transform =
-                    `
-                    translateZ(15px)
-                    `;
-
-            }
-
+        if (window.innerWidth <= 800) {
+            return;
         }
-    );
+
+        const rect =
+            card.getBoundingClientRect();
+
+        const x =
+            e.clientX - rect.left;
+
+        const y =
+            e.clientY - rect.top;
+
+        const centerX =
+            rect.width / 2;
+
+        const centerY =
+            rect.height / 2;
+
+        const rotateX =
+            (centerY - y) / 80;
+
+        const rotateY =
+            (x - centerX) / 80;
+
+        card.style.transform =
+            `
+            perspective(1200px)
+            rotateX(${rotateX}deg)
+            rotateY(${rotateY}deg)
+            translateY(-7px)
+            `;
+
+    });
 
 
-    directorCard.addEventListener(
-        "mouseleave",
-        function() {
+    card.addEventListener("mouseleave", function() {
 
-            directorCard.style.transform = "";
+        card.style.transform = "";
 
-            if (directorPhoto) {
+    });
 
-                directorPhoto.style.transform = "";
-
-            }
-
-        }
-    );
-
-}
+});
