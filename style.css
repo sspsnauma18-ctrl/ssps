@@ -1479,6 +1479,98 @@ img {
   font-size: 11px;
 }
 
+/* =========================
+   12. DIRECTOR 
+========================= */
+
+.director section {
+  background: #f0f5fa;
+}
+
+.director-box {
+  display: grid;
+
+  grid-template-columns:
+    0.7fr 1.3fr;
+
+  gap: 80px;
+
+  align-items: center;
+
+  padding: 60px;
+
+  background: var(--white);
+
+  border-radius: 32px;
+
+  box-shadow:
+    0 25px 70px rgba(14,40,70,0.08);
+}
+
+.director-image {
+  height: 390px;
+
+  border-radius: 25px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #0b3d91,
+      #07182d
+    );
+
+  display: grid;
+  place-items: center;
+
+  overflow: hidden;
+}
+
+.director-placeholder {
+  width: 170px;
+  height: 170px;
+
+  border-radius: 50%;
+
+  display: grid;
+  place-items: center;
+
+  background: rgba(255,255,255,0.08);
+
+  border: 1px solid rgba(255,255,255,0.16);
+
+  color: var(--secondary);
+
+  font-size: 65px;
+}
+
+.director-content blockquote {
+  font-family: "Playfair Display", serif;
+
+  font-size: 24px;
+
+  line-height: 1.6;
+
+  color: #35455b;
+
+  margin-bottom: 30px;
+}
+
+.director-name strong {
+  display: block;
+  color: var(--dark);
+  font-size: 13px;
+}
+
+.director-name span {
+  display: block;
+
+  margin-top: 5px;
+
+  color: var(--muted);
+
+  font-size: 11px;
+}
+
 
 /* =========================
    13. GALLERY
