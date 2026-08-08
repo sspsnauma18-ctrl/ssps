@@ -1,2279 +1,1146 @@
 /* =========================================================
    SSPS PREMIUM 3D WEBSITE
-   style.css
+   script.js
    ========================================================= */
 
-/* =========================
-   1. ROOT
-========================= */
 
-:root {
-  --primary: #0b3d91;
-  --primary-dark: #06265d;
-  --secondary: #f4b400;
-  --accent: #35b7ff;
+/* =========================================================
+   1. PRELOADER
+========================================================= */
 
-  --dark: #07111f;
-  --dark-2: #0c1b2d;
-  --light: #f7faff;
-  --white: #ffffff;
-  --text: #243247;
-  --muted: #6d7b8f;
+window.addEventListener("load", () => {
 
-  --border: rgba(255, 255, 255, 0.14);
-  --shadow: 0 20px 60px rgba(5, 20, 45, 0.14);
+  const preloader = document.getElementById("preloader");
 
-  --radius: 24px;
+  setTimeout(() => {
 
-  --transition: 0.35s ease;
+    if (preloader) {
+      preloader.classList.add("hide");
+    }
+
+  }, 700);
+
+});
+
+
+/* =========================================================
+   2. CURRENT YEAR
+========================================================= */
+
+const yearElement = document.getElementById("year");
+
+if (yearElement) {
+  yearElement.textContent = new Date().getFullYear();
 }
 
 
-/* =========================
-   2. RESET
-========================= */
+/* =========================================================
+   3. NAVBAR SCROLL EFFECT
+========================================================= */
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+const navbar = document.getElementById("navbar");
 
-html {
-  scroll-behavior: smooth;
-}
+function updateNavbar() {
 
-body {
-  font-family: "Inter", sans-serif;
-  background: var(--light);
-  color: var(--text);
-  overflow-x: hidden;
-}
+  if (!navbar) return;
 
-body.no-scroll {
-  overflow: hidden;
-}
-
-a {
-  text-decoration: none;
-  color: inherit;
-}
-
-button,
-input,
-textarea {
-  font-family: inherit;
-}
-
-button {
-  cursor: pointer;
-}
-
-img {
-  max-width: 100%;
-  display: block;
-}
-
-::selection {
-  background: var(--primary);
-  color: var(--white);
-}
-
-
-/* =========================
-   3. CONTAINER
-========================= */
-
-.container {
-  width: min(1180px, calc(100% - 40px));
-  margin: auto;
-}
-
-.section-padding {
-  padding: 120px 0;
-}
-
-
-/* =========================
-   4. PRELOADER
-========================= */
-
-#preloader {
-  position: fixed;
-  inset: 0;
-  background: #06101e;
-  display: grid;
-  place-items: center;
-  z-index: 99999;
-  transition:
-    opacity 0.6s ease,
-    visibility 0.6s ease;
-}
-
-#preloader.hide {
-  opacity: 0;
-  visibility: hidden;
-}
-
-.loader-box {
-  text-align: center;
-}
-
-.loader-logo {
-  font-family: "Playfair Display", serif;
-  font-size: 58px;
-  font-weight: 800;
-  letter-spacing: 4px;
-  color: var(--white);
-}
-
-.loader-line {
-  width: 180px;
-  height: 3px;
-  background: rgba(255,255,255,0.12);
-  margin: 20px auto;
-  overflow: hidden;
-  position: relative;
-}
-
-.loader-line::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  width: 45%;
-  background: var(--secondary);
-  animation: loading 1.2s infinite ease-in-out;
-}
-
-.loader-box p {
-  color: rgba(255,255,255,0.55);
-  font-size: 13px;
-  letter-spacing: 2px;
-}
-
-@keyframes loading {
-  0% {
-    transform: translateX(-100%);
+  if (window.scrollY > 50) {
+    navbar.classList.add("scrolled");
+  } else {
+    navbar.classList.remove("scrolled");
   }
 
-  100% {
-    transform: translateX(300%);
+}
+
+window.addEventListener("scroll", updateNavbar);
+
+updateNavbar();
+
+
+/* =========================================================
+   4. MOBILE MENU
+========================================================= */
+
+const menuBtn = document.getElementById("menuBtn");
+const navLinks = document.getElementById("navLinks");
+
+if (menuBtn && navLinks) {
+
+  menuBtn.addEventListener("click", () => {
+
+    navLinks.classList.toggle("open");
+
+    document.body.classList.toggle("no-scroll");
+
+    const icon = menuBtn.querySelector("i");
+
+    if (navLinks.classList.contains("open")) {
+
+      icon.classList.remove("fa-bars");
+      icon.classList.add("fa-xmark");
+
+    } else {
+
+      icon.classList.remove("fa-xmark");
+      icon.classList.add("fa-bars");
+
+    }
+
+  });
+
+
+  /* Close menu after clicking link */
+
+  const links = navLinks.querySelectorAll("a");
+
+  links.forEach(link => {
+
+    link.addEventListener("click", () => {
+
+      navLinks.classList.remove("open");
+
+      document.body.classList.remove("no-scroll");
+
+      const icon = menuBtn.querySelector("i");
+
+      icon.classList.remove("fa-xmark");
+      icon.classList.add("fa-bars");
+
+    });
+
+  });
+
+}
+
+
+/* =========================================================
+   5. SMOOTH ACTIVE NAVIGATION
+========================================================= */
+
+const sections = document.querySelectorAll("section[id]");
+const navigationLinks = document.querySelectorAll(".nav-links a");
+
+function updateActiveNavigation() {
+
+  let currentSection = "";
+
+  sections.forEach(section => {
+
+    const sectionTop = section.offsetTop - 150;
+    const sectionHeight = section.offsetHeight;
+
+    if (
+      window.scrollY >= sectionTop &&
+      window.scrollY < sectionTop + sectionHeight
+    ) {
+
+      currentSection = section.getAttribute("id");
+
+    }
+
+  });
+
+
+  navigationLinks.forEach(link => {
+
+    link.classList.remove("active");
+
+    const href = link.getAttribute("href");
+
+    if (href === `#${currentSection}`) {
+      link.classList.add("active");
+    }
+
+  });
+
+}
+
+window.addEventListener("scroll", updateActiveNavigation);
+
+
+/* =========================================================
+   6. NUMBER COUNTER ANIMATION
+========================================================= */
+
+const counters = document.querySelectorAll("[data-count]");
+
+let countersStarted = false;
+
+function animateCounters() {
+
+  if (countersStarted) return;
+
+  const statsSection = document.querySelector(".stats-section");
+
+  if (!statsSection) return;
+
+  const sectionTop =
+    statsSection.getBoundingClientRect().top;
+
+  const windowHeight = window.innerHeight;
+
+  if (sectionTop < windowHeight * 0.85) {
+
+    countersStarted = true;
+
+    counters.forEach(counter => {
+
+      const target =
+        Number(counter.getAttribute("data-count"));
+
+      let current = 0;
+
+      const duration = 1800;
+
+      const startTime = performance.now();
+
+      function updateCounter(currentTime) {
+
+        const progress =
+          Math.min(
+            (currentTime - startTime) / duration,
+            1
+          );
+
+        const easedProgress =
+          1 - Math.pow(1 - progress, 3);
+
+        current =
+          Math.floor(target * easedProgress);
+
+        counter.textContent =
+          current.toLocaleString();
+
+        if (progress < 1) {
+
+          requestAnimationFrame(updateCounter);
+
+        } else {
+
+          counter.textContent =
+            target.toLocaleString() + "+";
+
+        }
+
+      }
+
+      requestAnimationFrame(updateCounter);
+
+    });
+
   }
+
 }
 
+window.addEventListener("scroll", animateCounters);
 
-/* =========================
-   5. NAVBAR
-========================= */
-
-.navbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 1000;
-  padding: 20px 0;
-  transition: var(--transition);
-}
-
-.navbar.scrolled {
-  padding: 12px 0;
-  background: rgba(6, 17, 31, 0.78);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  border-bottom: 1px solid rgba(255,255,255,0.08);
-}
-
-.nav-container {
-  width: min(1240px, calc(100% - 40px));
-  margin: auto;
-
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 25px;
-}
+animateCounters();
 
 
-/* Logo */
+/* =========================================================
+   7. SCROLL REVEAL
+========================================================= */
 
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  color: var(--white);
-}
+const revealElements = document.querySelectorAll(
+  ".about-content, .facility-card, .achievement-content, " +
+  ".achievement-visual, .principal-box, .gallery-item, " +
+  ".contact-content, .contact-form"
+);
 
-.logo-mark {
-  width: 48px;
-  height: 48px;
-  border-radius: 14px;
-
-  display: grid;
-  place-items: center;
-
-  background:
-    linear-gradient(
-      145deg,
-      var(--secondary),
-      #ffd86a
-    );
-
-  color: #14233c;
-
-  box-shadow:
-    0 10px 30px rgba(244, 180, 0, 0.25);
-
-  transform: rotate(-4deg);
-}
-
-.logo-mark span {
-  font-size: 12px;
-  font-weight: 900;
-  letter-spacing: 1px;
-  transform: rotate(4deg);
-}
-
-.logo-text {
-  display: flex;
-  flex-direction: column;
-  line-height: 1.2;
-}
-
-.logo-text strong {
-  font-family: "Playfair Display", serif;
-  font-size: 15px;
-}
-
-.logo-text small {
-  font-size: 10px;
-  opacity: 0.6;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-}
+revealElements.forEach(element => {
+  element.classList.add("reveal");
+});
 
 
-/* Navigation */
+const revealObserver =
+  new IntersectionObserver(
+    (entries, observer) => {
 
-.nav-links {
-  display: flex;
-  align-items: center;
-  gap: 30px;
-}
+      entries.forEach(entry => {
 
-.nav-links a {
-  position: relative;
-  color: rgba(255,255,255,0.72);
-  font-size: 13px;
-  font-weight: 600;
-  transition: var(--transition);
-}
+        if (entry.isIntersecting) {
 
-.nav-links a:hover,
-.nav-links a.active {
-  color: var(--white);
-}
+          entry.target.classList.add("show");
 
-.nav-links a::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: -8px;
-  width: 0;
-  height: 2px;
-  background: var(--secondary);
-  transition: var(--transition);
-}
+          observer.unobserve(entry.target);
 
-.nav-links a:hover::after,
-.nav-links a.active::after {
-  width: 100%;
-}
+        }
 
+      });
 
-/* Navbar Button */
-
-.nav-button {
-  display: flex;
-  align-items: center;
-  gap: 9px;
-
-  background: var(--white);
-  color: var(--dark);
-
-  padding: 12px 17px;
-  border-radius: 100px;
-
-  font-size: 12px;
-  font-weight: 700;
-
-  transition: var(--transition);
-}
-
-.nav-button:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 12px 30px rgba(255,255,255,0.15);
-}
-
-.nav-button i {
-  color: var(--primary);
-}
-
-
-/* Menu */
-
-.menu-btn {
-  width: 45px;
-  height: 45px;
-  border: 1px solid rgba(255,255,255,0.15);
-  border-radius: 12px;
-  background: rgba(255,255,255,0.08);
-  color: var(--white);
-  display: none;
-  font-size: 18px;
-}
-
-
-/* =========================
-   6. HERO
-========================= */
-
-.hero {
-  min-height: 100vh;
-  position: relative;
-  overflow: hidden;
-
-  display: flex;
-  align-items: center;
-
-  background:
-    radial-gradient(
-      circle at 75% 35%,
-      rgba(53,183,255,0.20),
-      transparent 30%
-    ),
-    radial-gradient(
-      circle at 20% 20%,
-      rgba(11,61,145,0.45),
-      transparent 35%
-    ),
-    #06101e;
-
-  color: var(--white);
-}
-
-
-/* Three.js canvas */
-
-#heroCanvas {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-}
-
-
-/* Background */
-
-.hero-bg {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-
-  background:
-    linear-gradient(
-      90deg,
-      rgba(6,16,30,0.98) 0%,
-      rgba(6,16,30,0.80) 42%,
-      rgba(6,16,30,0.25) 100%
-    );
-}
-
-.hero-grid {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-
-  opacity: 0.16;
-
-  background-image:
-    linear-gradient(
-      rgba(255,255,255,0.08) 1px,
-      transparent 1px
-    ),
-    linear-gradient(
-      90deg,
-      rgba(255,255,255,0.08) 1px,
-      transparent 1px
-    );
-
-  background-size: 70px 70px;
-
-  mask-image: linear-gradient(
-    to right,
-    black,
-    transparent
+    },
+    {
+      threshold: 0.12
+    }
   );
-}
 
 
-/* Hero content */
-
-.hero-container {
-  width: min(1180px, calc(100% - 40px));
-  margin: auto;
-
-  position: relative;
-  z-index: 5;
-
-  display: grid;
-  grid-template-columns: 1.2fr 0.8fr;
-
-  align-items: center;
-
-  gap: 70px;
-
-  padding-top: 80px;
-}
+revealElements.forEach(element => {
+  revealObserver.observe(element);
+});
 
 
-/* Hero main */
+/* =========================================================
+   8. THREE.JS 3D HERO
+========================================================= */
 
-.hero-content {
-  max-width: 720px;
-}
+const canvas = document.getElementById("heroCanvas");
 
-.hero-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
+if (canvas && typeof THREE !== "undefined") {
 
-  padding: 8px 14px;
+  /* -------------------------
+     Scene
+  ------------------------- */
 
-  border-radius: 100px;
-
-  background: rgba(255,255,255,0.07);
-  border: 1px solid rgba(255,255,255,0.12);
-
-  color: rgba(255,255,255,0.78);
-
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 1.2px;
-  text-transform: uppercase;
-
-  margin-bottom: 25px;
-}
-
-.badge-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: #46dc8a;
-
-  box-shadow:
-    0 0 0 5px rgba(70,220,138,0.1);
-}
+  const scene = new THREE.Scene();
 
 
-.hero h1 {
-  font-family: "Playfair Display", serif;
+  /* -------------------------
+     Camera
+  ------------------------- */
 
-  font-size: clamp(52px, 6vw, 82px);
-
-  line-height: 0.98;
-
-  letter-spacing: -3px;
-
-  max-width: 800px;
-
-  margin-bottom: 28px;
-}
-
-.hero h1 span {
-  display: block;
-
-  background:
-    linear-gradient(
-      90deg,
-      #ffffff,
-      #6bd1ff,
-      #f4b400
+  const camera =
+    new THREE.PerspectiveCamera(
+      45,
+      window.innerWidth / window.innerHeight,
+      0.1,
+      100
     );
 
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
+  camera.position.set(0, 1.8, 8);
 
 
-.hero-description {
-  max-width: 600px;
+  /* -------------------------
+     Renderer
+  ------------------------- */
 
-  color: rgba(255,255,255,0.62);
+  const renderer =
+    new THREE.WebGLRenderer({
+      canvas: canvas,
+      alpha: true,
+      antialias: true
+    });
 
-  font-size: 16px;
-  line-height: 1.8;
+  renderer.setPixelRatio(
+    Math.min(window.devicePixelRatio, 2)
+  );
 
-  margin-bottom: 35px;
-}
+  renderer.setSize(
+    window.innerWidth,
+    window.innerHeight
+  );
 
 
-/* Buttons */
+  /* -------------------------
+     Lights
+  ------------------------- */
 
-.hero-buttons {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 14px;
-}
-
-.btn {
-  min-height: 52px;
-
-  padding: 0 22px;
-
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-
-  gap: 10px;
-
-  border-radius: 100px;
-
-  font-size: 13px;
-  font-weight: 700;
-
-  transition: var(--transition);
-}
-
-.btn-primary {
-  background:
-    linear-gradient(
-      135deg,
-      var(--secondary),
-      #ffd55e
+  const ambientLight =
+    new THREE.AmbientLight(
+      0xffffff,
+      1.3
     );
 
-  color: #111c2e;
-
-  box-shadow:
-    0 15px 40px rgba(244,180,0,0.22);
-}
-
-.btn-primary:hover {
-  transform: translateY(-4px);
-  box-shadow:
-    0 20px 50px rgba(244,180,0,0.32);
-}
-
-.btn-outline {
-  border: 1px solid rgba(255,255,255,0.2);
-  color: var(--white);
-  background: rgba(255,255,255,0.04);
-}
-
-.btn-outline:hover {
-  background: rgba(255,255,255,0.1);
-  transform: translateY(-4px);
-}
+  scene.add(ambientLight);
 
 
-/* Trust */
-
-.hero-trust {
-  margin-top: 45px;
-
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-
-.trust-avatars {
-  display: flex;
-}
-
-.avatar {
-  width: 34px;
-  height: 34px;
-
-  border-radius: 50%;
-
-  border: 2px solid #06101e;
-
-  margin-left: -7px;
-
-  display: grid;
-  place-items: center;
-
-  background:
-    linear-gradient(
-      135deg,
-      #173c70,
-      #35b7ff
+  const directionalLight =
+    new THREE.DirectionalLight(
+      0xffffff,
+      2
     );
 
-  font-size: 10px;
-  font-weight: 800;
-}
+  directionalLight.position.set(
+    5,
+    8,
+    5
+  );
 
-.avatar:first-child {
-  margin-left: 0;
-}
-
-.hero-trust strong {
-  display: block;
-  font-size: 12px;
-}
-
-.hero-trust span {
-  display: block;
-  margin-top: 4px;
-  color: rgba(255,255,255,0.45);
-  font-size: 10px;
-}
+  scene.add(directionalLight);
 
 
-/* =========================
-   HERO INFO CARD
-========================= */
-
-.hero-info-card {
-  justify-self: end;
-
-  width: min(340px, 100%);
-
-  padding: 25px;
-
-  border-radius: 28px;
-
-  background:
-    linear-gradient(
-      145deg,
-      rgba(255,255,255,0.12),
-      rgba(255,255,255,0.035)
+  const blueLight =
+    new THREE.PointLight(
+      0x35b7ff,
+      5,
+      20
     );
 
-  border: 1px solid rgba(255,255,255,0.14);
+  blueLight.position.set(
+    -4,
+    3,
+    3
+  );
 
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-
-  box-shadow:
-    0 30px 100px rgba(0,0,0,0.35);
-
-  animation:
-    floatingCard 5s ease-in-out infinite;
-}
-
-@keyframes floatingCard {
-
-  0%,
-  100% {
-    transform: translateY(0) rotateY(0);
-  }
-
-  50% {
-    transform: translateY(-12px) rotateY(3deg);
-  }
-
-}
-
-.info-card-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  color: rgba(255,255,255,0.5);
-
-  font-size: 10px;
-  font-weight: 800;
-  letter-spacing: 2px;
-}
-
-.live-dot {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-
-  color: #67e7a0;
-  letter-spacing: 0;
-}
-
-.live-dot span {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #67e7a0;
-  box-shadow: 0 0 15px #67e7a0;
-}
+  scene.add(blueLight);
 
 
-/* Emblem */
-
-.school-emblem {
-  display: grid;
-  place-items: center;
-
-  margin: 40px 0;
-}
-
-.emblem-ring {
-  width: 160px;
-  height: 160px;
-
-  border-radius: 50%;
-
-  display: grid;
-  place-items: center;
-
-  background:
-    conic-gradient(
-      from 0deg,
-      var(--secondary),
-      var(--accent),
-      var(--secondary)
+  const goldLight =
+    new THREE.PointLight(
+      0xf4b400,
+      4,
+      15
     );
 
-  padding: 2px;
+  goldLight.position.set(
+    4,
+    1,
+    2
+  );
 
-  animation:
-    rotateRing 12s linear infinite;
-}
+  scene.add(goldLight);
 
-@keyframes rotateRing {
-  to {
-    transform: rotate(360deg);
-  }
-}
 
-.emblem-inner {
-  width: 100%;
-  height: 100%;
+  /* =====================================================
+     3D SCHOOL BUILDING
+  ===================================================== */
 
-  border-radius: inherit;
+  const schoolGroup =
+    new THREE.Group();
 
-  display: grid;
-  place-items: center;
+  schoolGroup.position.set(
+    2.3,
+    -1.5,
+    0
+  );
 
-  background: #0a1a2d;
+  schoolGroup.rotation.y = -0.18;
 
-  font-size: 50px;
+  scene.add(schoolGroup);
 
-  color: var(--secondary);
 
-  animation:
-    rotateRingReverse 12s linear infinite;
-}
+  /* -------------------------
+     Materials
+  ------------------------- */
 
-@keyframes rotateRingReverse {
-  to {
-    transform: rotate(-360deg);
-  }
-}
+  const wallMaterial =
+    new THREE.MeshStandardMaterial({
+      color: 0x173c70,
+      roughness: 0.55,
+      metalness: 0.15
+    });
 
-.hero-info-card h3 {
-  font-family: "Playfair Display", serif;
-  font-size: 27px;
-  margin-bottom: 10px;
-}
 
-.hero-info-card > p {
-  color: rgba(255,255,255,0.55);
-  font-size: 12px;
-  line-height: 1.7;
-}
+  const roofMaterial =
+    new THREE.MeshStandardMaterial({
+      color: 0x0b1f3b,
+      roughness: 0.4,
+      metalness: 0.2
+    });
 
-.card-line {
-  height: 1px;
-  background: rgba(255,255,255,0.1);
-  margin: 25px 0;
-}
 
-.card-stat {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
+  const windowMaterial =
+    new THREE.MeshStandardMaterial({
+      color: 0x35b7ff,
+      emissive: 0x35b7ff,
+      emissiveIntensity: 0.7,
+      transparent: true,
+      opacity: 0.85
+    });
 
-.card-stat strong {
-  display: block;
-  font-size: 13px;
-}
 
-.card-stat span {
-  display: block;
-  margin-top: 4px;
-  color: rgba(255,255,255,0.4);
-  font-size: 10px;
-}
+  const goldMaterial =
+    new THREE.MeshStandardMaterial({
+      color: 0xf4b400,
+      emissive: 0xf4b400,
+      emissiveIntensity: 0.15,
+      roughness: 0.35,
+      metalness: 0.45
+    });
 
-.card-stat i {
-  width: 35px;
-  height: 35px;
-  border-radius: 50%;
 
-  display: grid;
-  place-items: center;
+  /* -------------------------
+     Main Building
+  ------------------------- */
 
-  background: rgba(255,255,255,0.08);
-
-  font-size: 11px;
-}
-
-
-/* Scroll */
-
-.scroll-down {
-  position: absolute;
-
-  left: 50%;
-  bottom: 25px;
-
-  transform: translateX(-50%);
-
-  z-index: 8;
-
-  display: flex;
-  align-items: center;
-  gap: 12px;
-
-  color: rgba(255,255,255,0.4);
-
-  font-size: 9px;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-}
-
-.scroll-icon {
-  width: 30px;
-  height: 30px;
-
-  display: grid;
-  place-items: center;
-
-  border: 1px solid rgba(255,255,255,0.15);
-  border-radius: 50%;
-
-  animation:
-    scrollBounce 1.5s infinite;
-}
-
-@keyframes scrollBounce {
-
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-
-  50% {
-    transform: translateY(5px);
-  }
-
-}
-
-
-/* =========================
-   7. STATS
-========================= */
-
-.stats-section {
-  background: var(--white);
-
-  position: relative;
-  z-index: 10;
-
-  border-bottom: 1px solid #e8edf4;
-}
-
-.stats-grid {
-  display: grid;
-
-  grid-template-columns:
-    repeat(4, 1fr);
-
-  gap: 0;
-}
-
-.stat-card {
-  padding: 35px 25px;
-
-  display: flex;
-  align-items: center;
-
-  gap: 17px;
-
-  border-right: 1px solid #e9eef5;
-}
-
-.stat-card:last-child {
-  border-right: 0;
-}
-
-.stat-icon {
-  width: 52px;
-  height: 52px;
-
-  border-radius: 16px;
-
-  display: grid;
-  place-items: center;
-
-  background: #edf5ff;
-
-  color: var(--primary);
-
-  font-size: 18px;
-}
-
-.stat-card strong {
-  display: block;
-
-  font-family: "Playfair Display", serif;
-
-  font-size: 30px;
-
-  color: var(--dark);
-}
-
-.stat-card span {
-  color: var(--muted);
-  font-size: 11px;
-}
-
-
-/* =========================
-   8. SECTION LABEL
-========================= */
-
-.section-label {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-
-  color: var(--primary);
-
-  font-size: 10px;
-  font-weight: 800;
-
-  text-transform: uppercase;
-
-  letter-spacing: 2px;
-
-  margin-bottom: 22px;
-}
-
-.section-label span {
-  width: 31px;
-  height: 31px;
-
-  display: grid;
-  place-items: center;
-
-  border-radius: 50%;
-
-  background: #eaf2ff;
-
-  color: var(--primary);
-
-  font-size: 9px;
-}
-
-
-/* =========================
-   9. ABOUT
-========================= */
-
-.about-section {
-  background: var(--light);
-}
-
-.about-grid {
-  display: grid;
-
-  grid-template-columns:
-    0.7fr 1.3fr;
-
-  gap: 80px;
-}
-
-.about-content h2,
-.section-heading h2,
-.achievement-content h2,
-.principal-content h2,
-.cta-content h2,
-.contact-content h2 {
-
-  font-family: "Playfair Display", serif;
-
-  font-size: clamp(42px, 5vw, 64px);
-
-  line-height: 1.05;
-
-  color: var(--dark);
-
-  letter-spacing: -2px;
-
-  margin-bottom: 25px;
-}
-
-.about-content h2 span,
-.section-heading h2 span,
-.achievement-content h2 span,
-.principal-content h2 span,
-.cta-content h2 span,
-.contact-content h2 span {
-
-  color: var(--primary);
-}
-
-.about-content p {
-  max-width: 700px;
-
-  color: var(--muted);
-
-  font-size: 15px;
-  line-height: 1.9;
-
-  margin-bottom: 20px;
-}
-
-.text-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-
-  margin-top: 15px;
-
-  color: var(--primary);
-
-  font-size: 12px;
-  font-weight: 800;
-}
-
-.text-link i {
-  transition: var(--transition);
-}
-
-.text-link:hover i {
-  transform: translateX(5px);
-}
-
-
-/* =========================
-   10. FACILITIES
-========================= */
-
-.facilities-section {
-  background: #eef4fb;
-}
-
-.section-heading {
-  max-width: 720px;
-  margin-bottom: 55px;
-}
-
-.section-heading p {
-  color: var(--muted);
-  font-size: 14px;
-  line-height: 1.8;
-}
-
-.facility-grid {
-  display: grid;
-
-  grid-template-columns:
-    repeat(4, 1fr);
-
-  gap: 18px;
-}
-
-.facility-card {
-  position: relative;
-
-  padding: 32px 27px;
-
-  min-height: 300px;
-
-  background: var(--white);
-
-  border-radius: var(--radius);
-
-  border: 1px solid #e2eaf4;
-
-  overflow: hidden;
-
-  transition:
-    transform var(--transition),
-    box-shadow var(--transition);
-}
-
-.facility-card:hover {
-  transform:
-    translateY(-10px)
-    rotateX(2deg)
-    rotateY(-2deg);
-
-  box-shadow:
-    0 30px 60px rgba(14,45,82,0.13);
-}
-
-.facility-card.featured {
-  background:
-    linear-gradient(
-      145deg,
-      #0b3d91,
-      #08295e
+  const buildingGeometry =
+    new THREE.BoxGeometry(
+      4.8,
+      2.8,
+      2
     );
 
-  color: var(--white);
-}
-
-.facility-card.featured p {
-  color: rgba(255,255,255,0.6);
-}
-
-.facility-number {
-  position: absolute;
-
-  top: 20px;
-  right: 22px;
-
-  font-size: 10px;
-  font-weight: 800;
-
-  color: #a8b7ca;
-}
-
-.featured .facility-number {
-  color: rgba(255,255,255,0.3);
-}
-
-.facility-icon {
-  width: 58px;
-  height: 58px;
-
-  display: grid;
-  place-items: center;
-
-  border-radius: 18px;
-
-  background: #edf5ff;
-
-  color: var(--primary);
-
-  font-size: 21px;
-
-  margin-bottom: 30px;
-}
-
-.featured .facility-icon {
-  background: rgba(255,255,255,0.1);
-  color: var(--secondary);
-}
-
-.facility-card h3 {
-  font-family: "Playfair Display", serif;
-
-  font-size: 23px;
-
-  margin-bottom: 14px;
-}
-
-.facility-card p {
-  color: var(--muted);
-
-  font-size: 12px;
-
-  line-height: 1.7;
-}
-
-.facility-card a {
-  position: absolute;
-
-  bottom: 25px;
-  left: 27px;
-
-  display: flex;
-  align-items: center;
-  gap: 8px;
-
-  color: var(--primary);
-
-  font-size: 11px;
-  font-weight: 800;
-}
-
-.featured a {
-  color: var(--secondary);
-}
-
-
-/* =========================
-   11. ACHIEVEMENT
-========================= */
-
-.achievement-section {
-  background: var(--white);
-}
-
-.achievement-grid {
-  display: grid;
-
-  grid-template-columns:
-    1fr 1fr;
-
-  align-items: center;
-
-  gap: 100px;
-}
-
-.achievement-content > p {
-  color: var(--muted);
-
-  max-width: 520px;
-
-  font-size: 15px;
-
-  line-height: 1.8;
-
-  margin-bottom: 30px;
-}
-
-.achievement-list {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-
-.achievement-list div {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-
-  font-size: 13px;
-  font-weight: 600;
-}
-
-.achievement-list i {
-  width: 27px;
-  height: 27px;
-
-  display: grid;
-  place-items: center;
-
-  border-radius: 50%;
-
-  background: #e8f7ee;
-
-  color: #1a9c59;
-
-  font-size: 10px;
-}
-
-
-/* Achievement visual */
-
-.achievement-visual {
-  min-height: 500px;
-
-  position: relative;
-
-  display: grid;
-  place-items: center;
-}
-
-.achievement-circle {
-  width: 330px;
-  height: 330px;
-
-  border-radius: 50%;
-
-  padding: 2px;
-
-  background:
-    conic-gradient(
-      var(--primary),
-      var(--accent),
-      var(--secondary),
-      var(--primary)
+  const building =
+    new THREE.Mesh(
+      buildingGeometry,
+      wallMaterial
     );
 
-  animation:
-    rotateRing 15s linear infinite;
-}
+  building.position.y = 1.4;
 
-.circle-content {
-  width: 100%;
-  height: 100%;
+  schoolGroup.add(building);
 
-  border-radius: inherit;
 
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  /* -------------------------
+     Second Floor
+  ------------------------- */
 
-  background:
-    radial-gradient(
-      circle,
-      #173b6b,
-      #07172b
+  const upperGeometry =
+    new THREE.BoxGeometry(
+      3.7,
+      1.4,
+      1.8
     );
 
-  color: var(--white);
-
-  animation:
-    rotateRingReverse 15s linear infinite;
-}
-
-.circle-content i {
-  font-size: 50px;
-  color: var(--secondary);
-  margin-bottom: 20px;
-}
-
-.circle-content strong {
-  font-family: "Playfair Display", serif;
-  font-size: 35px;
-}
-
-.circle-content span {
-  color: rgba(255,255,255,0.5);
-  font-size: 11px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-}
-
-
-/* Floating cards */
-
-.floating-card {
-  position: absolute;
-
-  padding: 13px 17px;
-
-  border-radius: 14px;
-
-  display: flex;
-  align-items: center;
-  gap: 10px;
-
-  background: var(--white);
-
-  box-shadow:
-    0 20px 50px rgba(8,35,70,0.13);
-
-  font-size: 11px;
-  font-weight: 700;
-
-  animation:
-    floatingCard 4s ease-in-out infinite;
-}
-
-.floating-card i {
-  color: var(--secondary);
-}
-
-.card-one {
-  top: 70px;
-  left: 0;
-}
-
-.card-two {
-  right: 0;
-  bottom: 70px;
-  animation-delay: -2s;
-}
-
-
-/* =========================
-   12. PRINCIPAL
-========================= */
-
-.principal-section {
-  background: #f0f5fa;
-}
-
-.principal-box {
-  display: grid;
-
-  grid-template-columns:
-    0.7fr 1.3fr;
-
-  gap: 80px;
-
-  align-items: center;
-
-  padding: 60px;
-
-  background: var(--white);
-
-  border-radius: 32px;
-
-  box-shadow:
-    0 25px 70px rgba(14,40,70,0.08);
-}
-
-.principal-image {
-  height: 390px;
-
-  border-radius: 25px;
-
-  background:
-    linear-gradient(
-      145deg,
-      #0b3d91,
-      #07182d
+  const upperFloor =
+    new THREE.Mesh(
+      upperGeometry,
+      wallMaterial
     );
 
-  display: grid;
-  place-items: center;
+  upperFloor.position.set(
+    0,
+    3.45,
+    0
+  );
 
-  overflow: hidden;
-}
-
-.principal-placeholder {
-  width: 170px;
-  height: 170px;
-
-  border-radius: 50%;
-
-  display: grid;
-  place-items: center;
-
-  background: rgba(255,255,255,0.08);
-
-  border: 1px solid rgba(255,255,255,0.16);
-
-  color: var(--secondary);
-
-  font-size: 65px;
-}
-
-.principal-content blockquote {
-  font-family: "Playfair Display", serif;
-
-  font-size: 24px;
-
-  line-height: 1.6;
-
-  color: #35455b;
-
-  margin-bottom: 30px;
-}
-
-.principal-name strong {
-  display: block;
-  color: var(--dark);
-  font-size: 13px;
-}
-
-.principal-name span {
-  display: block;
-
-  margin-top: 5px;
-
-  color: var(--muted);
-
-  font-size: 11px;
-}
+  schoolGroup.add(upperFloor);
 
 
-/* =========================
-   13. GALLERY
-========================= */
+  /* -------------------------
+     Roof
+  ------------------------- */
 
-.gallery-section {
-  background: var(--white);
-}
-
-.gallery-heading {
-  display: flex;
-  justify-content: space-between;
-  align-items: end;
-
-  max-width: none;
-}
-
-.gallery-heading .btn {
-  color: var(--primary);
-  border-color: #dce5f0;
-  margin-bottom: 15px;
-}
-
-.gallery-grid {
-  display: grid;
-
-  grid-template-columns:
-    1.5fr 1fr 1fr;
-
-  grid-template-rows:
-    230px 230px;
-
-  gap: 15px;
-}
-
-.gallery-item {
-  border-radius: 22px;
-
-  overflow: hidden;
-
-  background:
-    linear-gradient(
-      145deg,
-      #0b3d91,
-      #0b1e36
-    );
-}
-
-.gallery-item.large {
-  grid-row: span 2;
-}
-
-.gallery-placeholder {
-  width: 100%;
-  height: 100%;
-
-  display: flex;
-  flex-direction: column;
-
-  align-items: center;
-  justify-content: center;
-
-  gap: 12px;
-
-  color: rgba(255,255,255,0.85);
-
-  background:
-    radial-gradient(
-      circle at 50% 40%,
-      rgba(53,183,255,0.22),
-      transparent 35%
+  const roofGeometry =
+    new THREE.ConeGeometry(
+      3.1,
+      1.2,
+      4
     );
 
-  transition: var(--transition);
-}
-
-.gallery-placeholder i {
-  font-size: 40px;
-  color: var(--secondary);
-}
-
-.gallery-placeholder span {
-  font-size: 11px;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-}
-
-.gallery-item:hover .gallery-placeholder {
-  transform: scale(1.05);
-}
-
-
-/* =========================
-   14. CTA
-========================= */
-
-.cta-section {
-  position: relative;
-
-  overflow: hidden;
-
-  padding: 120px 0;
-
-  background:
-    linear-gradient(
-      135deg,
-      #06101e,
-      #0b3d91
+  const roof =
+    new THREE.Mesh(
+      roofGeometry,
+      roofMaterial
     );
 
-  color: var(--white);
+  roof.rotation.y =
+    Math.PI / 4;
 
-  text-align: center;
-}
+  roof.position.set(
+    0,
+    4.75,
+    0
+  );
 
-.cta-glow {
-  position: absolute;
+  schoolGroup.add(roof);
 
-  width: 500px;
-  height: 500px;
 
-  border-radius: 50%;
+  /* -------------------------
+     Entrance
+  ------------------------- */
 
-  background:
-    radial-gradient(
-      circle,
-      rgba(53,183,255,0.18),
-      transparent 65%
+  const entranceGeometry =
+    new THREE.BoxGeometry(
+      1.1,
+      1.9,
+      0.15
     );
 
-  top: 50%;
-  left: 50%;
+  const entrance =
+    new THREE.Mesh(
+      entranceGeometry,
+      goldMaterial
+    );
+
+  entrance.position.set(
+    0,
+    0.95,
+    1.08
+  );
+
+  schoolGroup.add(entrance);
+
+
+  /* -------------------------
+     Windows
+  ------------------------- */
+
+  function createWindow(
+    x,
+    y,
+    z,
+    scaleX = 1,
+    scaleY = 1
+  ) {
+
+    const geometry =
+      new THREE.BoxGeometry(
+        0.48 * scaleX,
+        0.58 * scaleY,
+        0.12
+      );
+
+    const windowMesh =
+      new THREE.Mesh(
+        geometry,
+        windowMaterial
+      );
+
+    windowMesh.position.set(
+      x,
+      y,
+      z
+    );
+
+    schoolGroup.add(windowMesh);
 
-  transform: translate(-50%, -50%);
-}
-
-.cta-content {
-  position: relative;
-  z-index: 2;
-}
-
-.cta-content .section-label {
-  justify-content: center;
-  color: var(--secondary);
-}
-
-.cta-content .section-label span {
-  background: rgba(255,255,255,0.1);
-  color: var(--secondary);
-}
-
-.cta-content h2 {
-  color: var(--white);
-  max-width: 800px;
-  margin: 0 auto 20px;
-}
-
-.cta-content h2 span {
-  color: var(--secondary);
-}
-
-.cta-content p {
-  max-width: 620px;
-
-  margin: auto auto 30px;
-
-  color: rgba(255,255,255,0.6);
-
-  font-size: 14px;
-  line-height: 1.8;
-}
-
-.btn-light {
-  background: var(--white);
-  color: var(--dark);
-}
-
-.btn-light:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 20px 50px rgba(0,0,0,0.2);
-}
-
-
-/* =========================
-   15. CONTACT
-========================= */
-
-.contact-section {
-  background: #f3f7fb;
-}
-
-.contact-grid {
-  display: grid;
-
-  grid-template-columns:
-    0.9fr 1.1fr;
-
-  gap: 80px;
-
-  align-items: start;
-}
-
-.contact-content > p {
-  max-width: 500px;
-
-  color: var(--muted);
-
-  font-size: 14px;
-  line-height: 1.8;
-
-  margin-bottom: 35px;
-}
-
-.contact-details {
-  display: flex;
-  flex-direction: column;
-  gap: 22px;
-}
-
-.contact-item {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-
-.contact-icon {
-  width: 48px;
-  height: 48px;
-
-  border-radius: 15px;
-
-  display: grid;
-  place-items: center;
-
-  background: var(--white);
-
-  color: var(--primary);
-
-  box-shadow:
-    0 10px 30px rgba(10,40,80,0.06);
-}
-
-.contact-item strong {
-  display: block;
-
-  color: var(--dark);
-
-  font-size: 12px;
-}
-
-.contact-item span {
-  display: block;
-
-  margin-top: 4px;
-
-  color: var(--muted);
-
-  font-size: 11px;
-}
-
-
-/* Form */
-
-.contact-form {
-  padding: 35px;
-
-  background: var(--white);
-
-  border-radius: 25px;
-
-  box-shadow:
-    0 25px 70px rgba(8,35,70,0.08);
-}
-
-.form-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 15px;
-}
-
-.form-group {
-  margin-bottom: 18px;
-}
-
-.form-group label {
-  display: block;
-
-  margin-bottom: 8px;
-
-  color: var(--dark);
-
-  font-size: 11px;
-  font-weight: 700;
-}
-
-.form-group input,
-.form-group textarea {
-  width: 100%;
-
-  border: 1px solid #dce5ef;
-
-  background: #f9fbfd;
-
-  padding: 14px 15px;
-
-  border-radius: 12px;
-
-  outline: none;
-
-  font-size: 12px;
-
-  color: var(--dark);
-
-  transition: var(--transition);
-}
-
-.form-group textarea {
-  resize: vertical;
-}
-
-.form-group input:focus,
-.form-group textarea:focus {
-  border-color: var(--primary);
-
-  background: var(--white);
-
-  box-shadow:
-    0 0 0 4px rgba(11,61,145,0.08);
-}
-
-.form-button {
-  border: 0;
-  width: 100%;
-}
-
-
-/* =========================
-   16. FOOTER
-========================= */
-
-.footer {
-  background: #06101e;
-
-  color: var(--white);
-}
-
-.footer-grid {
-  padding: 75px 0;
-
-  display: grid;
-
-  grid-template-columns:
-    1.5fr 0.7fr 0.7fr 1fr;
-
-  gap: 60px;
-}
-
-.footer-brand .logo {
-  margin-bottom: 20px;
-}
-
-.footer-brand p {
-  max-width: 330px;
-
-  color: rgba(255,255,255,0.45);
-
-  font-size: 12px;
-
-  line-height: 1.8;
-}
-
-.social-links {
-  display: flex;
-
-  gap: 9px;
-
-  margin-top: 25px;
-}
-
-.social-links a {
-  width: 35px;
-  height: 35px;
-
-  display: grid;
-  place-items: center;
-
-  border-radius: 10px;
-
-  background: rgba(255,255,255,0.07);
-
-  color: rgba(255,255,255,0.65);
-
-  font-size: 12px;
-
-  transition: var(--transition);
-}
-
-.social-links a:hover {
-  background: var(--secondary);
-  color: var(--dark);
-  transform: translateY(-4px);
-}
-
-.footer-links {
-  display: flex;
-  flex-direction: column;
-
-  gap: 12px;
-}
-
-.footer-links h4 {
-  font-size: 12px;
-
-  margin-bottom: 8px;
-
-  color: var(--white);
-}
-
-.footer-links a,
-.footer-links span {
-  color: rgba(255,255,255,0.43);
-
-  font-size: 11px;
-
-  transition: var(--transition);
-}
-
-.footer-links a:hover {
-  color: var(--secondary);
-
-  transform: translateX(4px);
-}
-
-.footer-bottom {
-  border-top: 1px solid rgba(255,255,255,0.08);
-
-  padding: 22px 0;
-}
-
-.footer-bottom .container {
-  display: flex;
-
-  justify-content: space-between;
-
-  gap: 20px;
-}
-
-.footer-bottom p {
-  color: rgba(255,255,255,0.3);
-
-  font-size: 10px;
-}
-
-
-/* =========================
-   17. SCROLL REVEAL
-========================= */
-
-.reveal {
-  opacity: 0;
-
-  transform: translateY(35px);
-
-  transition:
-    opacity 0.8s ease,
-    transform 0.8s ease;
-}
-
-.reveal.show {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-
-/* =========================
-   18. RESPONSIVE
-========================= */
-
-@media (max-width: 1050px) {
-
-  .nav-links {
-    gap: 18px;
   }
 
-  .nav-button {
-    display: none;
+
+  /* Ground floor windows */
+
+  const windowPositions = [
+    -1.8,
+    -1.2,
+    -0.6,
+    0.6,
+    1.2,
+    1.8
+  ];
+
+  windowPositions.forEach(x => {
+
+    createWindow(
+      x,
+      1.7,
+      1.08
+    );
+
+  });
+
+
+  /* Upper floor windows */
+
+  [-1.2, -0.4, 0.4, 1.2].forEach(x => {
+
+    createWindow(
+      x,
+      3.55,
+      0.98,
+      0.8,
+      0.9
+    );
+
+  });
+
+
+  /* -------------------------
+     Columns
+  ------------------------- */
+
+  [-2.15, 2.15].forEach(x => {
+
+    const columnGeometry =
+      new THREE.BoxGeometry(
+        0.22,
+        3.3,
+        0.25
+      );
+
+    const column =
+      new THREE.Mesh(
+        columnGeometry,
+        goldMaterial
+      );
+
+    column.position.set(
+      x,
+      1.65,
+      1.03
+    );
+
+    schoolGroup.add(column);
+
+  });
+
+
+  /* -------------------------
+     School Flag
+  ------------------------- */
+
+  const poleGeometry =
+    new THREE.CylinderGeometry(
+      0.025,
+      0.025,
+      2.2,
+      12
+    );
+
+  const pole =
+    new THREE.Mesh(
+      poleGeometry,
+      goldMaterial
+    );
+
+  pole.position.set(
+    0,
+    5.8,
+    0
+  );
+
+  schoolGroup.add(pole);
+
+
+  const flagGeometry =
+    new THREE.PlaneGeometry(
+      0.9,
+      0.5
+    );
+
+  const flagMaterial =
+    new THREE.MeshBasicMaterial({
+      color: 0xf4b400,
+      side: THREE.DoubleSide
+    });
+
+  const flag =
+    new THREE.Mesh(
+      flagGeometry,
+      flagMaterial
+    );
+
+  flag.position.set(
+    0.45,
+    6.3,
+    0
+  );
+
+  flag.rotation.y =
+    Math.PI / 2;
+
+  schoolGroup.add(flag);
+
+
+  /* =====================================================
+     FLOATING PARTICLES
+  ===================================================== */
+
+  const particleCount = 500;
+
+  const particleGeometry =
+    new THREE.BufferGeometry();
+
+  const particlePositions =
+    new Float32Array(
+      particleCount * 3
+    );
+
+
+  for (
+    let i = 0;
+    i < particleCount * 3;
+    i += 3
+  ) {
+
+    particlePositions[i] =
+      (Math.random() - 0.5) * 14;
+
+    particlePositions[i + 1] =
+      (Math.random() - 0.5) * 9;
+
+    particlePositions[i + 2] =
+      (Math.random() - 0.5) * 8;
+
   }
 
-  .hero-container {
-    grid-template-columns: 1fr 0.7fr;
-    gap: 35px;
+
+  particleGeometry.setAttribute(
+    "position",
+    new THREE.BufferAttribute(
+      particlePositions,
+      3
+    )
+  );
+
+
+  const particleMaterial =
+    new THREE.PointsMaterial({
+      color: 0x72cfff,
+      size: 0.025,
+      transparent: true,
+      opacity: 0.65
+    });
+
+
+  const particles =
+    new THREE.Points(
+      particleGeometry,
+      particleMaterial
+    );
+
+  scene.add(particles);
+
+
+  /* =====================================================
+     MOUSE MOVEMENT
+  ===================================================== */
+
+  let mouseX = 0;
+  let mouseY = 0;
+
+  let targetMouseX = 0;
+  let targetMouseY = 0;
+
+
+  window.addEventListener(
+    "mousemove",
+    event => {
+
+      targetMouseX =
+        (event.clientX /
+          window.innerWidth -
+          0.5) * 2;
+
+      targetMouseY =
+        (event.clientY /
+          window.innerHeight -
+          0.5) * 2;
+
+    }
+  );
+
+
+  /* =====================================================
+     TOUCH MOVEMENT
+  ===================================================== */
+
+  window.addEventListener(
+    "touchmove",
+    event => {
+
+      if (!event.touches.length) return;
+
+      targetMouseX =
+        (event.touches[0].clientX /
+          window.innerWidth -
+          0.5) * 2;
+
+      targetMouseY =
+        (event.touches[0].clientY /
+          window.innerHeight -
+          0.5) * 2;
+
+    },
+    {
+      passive: true
+    }
+  );
+
+
+  /* =====================================================
+     ANIMATION LOOP
+  ===================================================== */
+
+  const clock =
+    new THREE.Clock();
+
+
+  function animate() {
+
+    requestAnimationFrame(animate);
+
+
+    const elapsed =
+      clock.getElapsedTime();
+
+
+    /* Smooth mouse */
+
+    mouseX +=
+      (targetMouseX - mouseX) * 0.04;
+
+    mouseY +=
+      (targetMouseY - mouseY) * 0.04;
+
+
+    /* School movement */
+
+    schoolGroup.rotation.y =
+      -0.18 +
+      mouseX * 0.12;
+
+    schoolGroup.rotation.x =
+      mouseY * 0.04;
+
+    schoolGroup.position.y =
+      -1.5 +
+      Math.sin(elapsed * 1.2) * 0.08;
+
+
+    /* Particles */
+
+    particles.rotation.y =
+      elapsed * 0.015;
+
+    particles.rotation.x =
+      mouseY * 0.03;
+
+
+    /* Camera */
+
+    camera.position.x =
+      mouseX * 0.15;
+
+    camera.position.y =
+      1.8 -
+      mouseY * 0.12;
+
+    camera.lookAt(
+      1.2,
+      2,
+      0
+    );
+
+
+    renderer.render(
+      scene,
+      camera
+    );
+
   }
 
-  .hero-info-card {
-    width: 300px;
-  }
 
-  .facility-grid {
-    grid-template-columns:
-      repeat(2, 1fr);
-  }
-
-  .stats-grid {
-    grid-template-columns:
-      repeat(2, 1fr);
-  }
-
-  .stat-card:nth-child(2) {
-    border-right: 0;
-  }
-
-  .stat-card:nth-child(-n+2) {
-    border-bottom: 1px solid #e9eef5;
-  }
-
-}
+  animate();
 
 
-/* Tablet */
+  /* =====================================================
+     RESIZE
+  ===================================================== */
 
-@media (max-width: 850px) {
+  window.addEventListener(
+    "resize",
+    () => {
 
-  .section-padding {
-    padding: 90px 0;
-  }
+      camera.aspect =
+        window.innerWidth /
+        window.innerHeight;
 
-  .menu-btn {
-    display: block;
-  }
+      camera.updateProjectionMatrix();
 
-  .nav-links {
-    position: fixed;
+      renderer.setSize(
+        window.innerWidth,
+        window.innerHeight
+      );
 
-    top: 75px;
-    left: 20px;
-    right: 20px;
+      renderer.setPixelRatio(
+        Math.min(
+          window.devicePixelRatio,
+          2
+        )
+      );
 
-    padding: 25px;
-
-    border-radius: 20px;
-
-    background: rgba(6,16,30,0.97);
-
-    backdrop-filter: blur(20px);
-
-    border: 1px solid rgba(255,255,255,0.1);
-
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-
-    gap: 0;
-
-    transform:
-      translateY(-20px);
-
-    opacity: 0;
-    visibility: hidden;
-
-    transition: var(--transition);
-  }
-
-  .nav-links.open {
-    transform: translateY(0);
-    opacity: 1;
-    visibility: visible;
-  }
-
-  .nav-links a {
-    padding: 15px 5px;
-  }
-
-  .nav-links a::after {
-    display: none;
-  }
-
-  .hero {
-    min-height: auto;
-    padding: 150px 0 100px;
-  }
-
-  .hero-container {
-    grid-template-columns: 1fr;
-  }
-
-  .hero-info-card {
-    justify-self: start;
-  }
-
-  .hero h1 {
-    font-size: clamp(46px, 10vw, 70px);
-  }
-
-  .about-grid,
-  .achievement-grid,
-  .principal-box,
-  .contact-grid {
-    grid-template-columns: 1fr;
-    gap: 50px;
-  }
-
-  .principal-box {
-    padding: 35px;
-  }
-
-  .principal-image {
-    height: 350px;
-  }
-
-  .achievement-visual {
-    min-height: 400px;
-  }
-
-  .gallery-grid {
-    grid-template-columns:
-      1fr 1fr;
-
-    grid-template-rows:
-      250px 200px 200px;
-  }
-
-  .gallery-item.large {
-    grid-column: span 2;
-    grid-row: span 1;
-  }
-
-  .footer-grid {
-    grid-template-columns:
-      1fr 1fr;
-  }
+    }
+  );
 
 }
 
 
-/* Mobile */
+/* =========================================================
+   9. CONTACT FORM
+========================================================= */
 
-@media (max-width: 600px) {
+const contactForm =
+  document.getElementById("contactForm");
 
-  .container,
-  .nav-container,
-  .hero-container {
-    width: min(100% - 28px, 1180px);
-  }
+if (contactForm) {
 
-  .section-padding {
-    padding: 75px 0;
-  }
+  contactForm.addEventListener(
+    "submit",
+    event => {
 
-  .logo-text strong {
-    font-size: 13px;
-  }
+      event.preventDefault();
 
-  .logo-mark {
-    width: 42px;
-    height: 42px;
-  }
+      const button =
+        contactForm.querySelector(
+          "button[type='submit']"
+        );
 
-  .hero {
-    padding-top: 135px;
-  }
+      const originalHTML =
+        button.innerHTML;
 
-  .hero h1 {
-    font-size: 46px;
-    letter-spacing: -2px;
-  }
+      button.innerHTML =
+        `
+          <i class="fa-solid fa-check"></i>
+          Message Ready
+        `;
 
-  .hero-description {
-    font-size: 13px;
-  }
+      button.disabled = true;
 
-  .hero-buttons {
-    flex-direction: column;
-    align-items: stretch;
-  }
+      setTimeout(() => {
 
-  .hero-buttons .btn {
-    width: 100%;
-  }
+        contactForm.reset();
 
-  .hero-info-card {
-    width: 100%;
-  }
+        button.innerHTML =
+          originalHTML;
 
-  .scroll-down {
-    display: none;
-  }
+        button.disabled = false;
 
-  .stats-grid {
-    grid-template-columns: 1fr;
-  }
+      }, 2500);
 
-  .stat-card {
-    border-right: 0;
-    border-bottom: 1px solid #e9eef5;
-  }
-
-  .stat-card:last-child {
-    border-bottom: 0;
-  }
-
-  .facility-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .about-content h2,
-  .section-heading h2,
-  .achievement-content h2,
-  .principal-content h2,
-  .cta-content h2,
-  .contact-content h2 {
-    font-size: 42px;
-  }
-
-  .achievement-circle {
-    width: 260px;
-    height: 260px;
-  }
-
-  .card-one {
-    left: 0;
-    top: 30px;
-  }
-
-  .card-two {
-    right: 0;
-    bottom: 30px;
-  }
-
-  .gallery-heading {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .gallery-grid {
-    display: grid;
-
-    grid-template-columns: 1fr;
-
-    grid-template-rows:
-      repeat(4, 220px);
-  }
-
-  .gallery-item.large {
-    grid-column: auto;
-  }
-
-  .gallery-item {
-    grid-column: auto !important;
-  }
-
-  .principal-box {
-    padding: 22px;
-  }
-
-  .principal-image {
-    height: 300px;
-  }
-
-  .principal-content blockquote {
-    font-size: 19px;
-  }
-
-  .contact-form {
-    padding: 22px;
-  }
-
-  .form-row {
-    grid-template-columns: 1fr;
-  }
-
-  .footer-grid {
-    grid-template-columns: 1fr;
-    gap: 40px;
-  }
-
-  .footer-bottom .container {
-    flex-direction: column;
-  }
+    }
+  );
 
 }
 
 
-/* =========================
-   19. REDUCED MOTION
-========================= */
+/* =========================================================
+   10. 3D CARD TILT EFFECT
+========================================================= */
 
-@media (prefers-reduced-motion: reduce) {
+const cards =
+  document.querySelectorAll(
+    ".facility-card, .hero-info-card"
+  );
 
-  *,
-  *::before,
-  *::after {
-    scroll-behavior: auto !important;
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
+
+cards.forEach(card => {
+
+  card.addEventListener(
+    "mousemove",
+    event => {
+
+      if (window.innerWidth < 800) {
+        return;
+      }
+
+      const rect =
+        card.getBoundingClientRect();
+
+      const x =
+        event.clientX - rect.left;
+
+      const y =
+        event.clientY - rect.top;
+
+      const centerX =
+        rect.width / 2;
+
+      const centerY =
+        rect.height / 2;
+
+      const rotateX =
+        (y - centerY) /
+        25;
+
+      const rotateY =
+        (centerX - x) /
+        25;
+
+      card.style.transform =
+        `
+          perspective(900px)
+          rotateX(${rotateX}deg)
+          rotateY(${rotateY}deg)
+          translateY(-8px)
+        `;
+
+    }
+  );
+
+
+  card.addEventListener(
+    "mouseleave",
+    () => {
+
+      card.style.transform = "";
+
+    }
+  );
+
+});
+
+
+/* =========================================================
+   11. PARALLAX EFFECT
+========================================================= */
+
+const heroContent =
+  document.querySelector(".hero-content");
+
+if (heroContent) {
+
+  window.addEventListener(
+    "scroll",
+    () => {
+
+      if (window.innerWidth < 800) {
+        return;
+      }
+
+      const scroll =
+        window.scrollY;
+
+      if (scroll < window.innerHeight) {
+
+        heroContent.style.transform =
+          `translateY(${scroll * 0.08}px)`;
+
+        heroContent.style.opacity =
+          Math.max(
+            0,
+            1 - scroll / 700
+          );
+
+      }
+
+    }
+  );
 
 }
+
+
+/* =========================================================
+   12. BUTTON RIPPLE EFFECT
+========================================================= */
+
+const buttons =
+  document.querySelectorAll(
+    ".btn, .nav-button"
+  );
+
+
+buttons.forEach(button => {
+
+  button.addEventListener(
+    "click",
+    function(event) {
+
+      const ripple =
+        document.createElement("span");
+
+      ripple.classList.add("ripple");
+
+      const rect =
+        button.getBoundingClientRect();
+
+      ripple.style.left =
+        `${event.clientX - rect.left}px`;
+
+      ripple.style.top =
+        `${event.clientY - rect.top}px`;
+
+      button.appendChild(ripple);
+
+      setTimeout(() => {
+        ripple.remove();
+      }, 600);
+
+    }
+  );
+
+});
+
+
+/* =========================================================
+   13. CONSOLE MESSAGE
+========================================================= */
+
+console.log(
+  "%c SSPS 3D Website ",
+  "background:#0b3d91;color:#fff;font-size:18px;padding:10px;"
+);
+
+console.log(
+  "Welcome to Swami Shantanand Public School."
+);
