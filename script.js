@@ -1144,3 +1144,80 @@ console.log(
 console.log(
   "Welcome to Swami Shantanand Public School."
 );
+/* =====================================================
+   DIRECTOR 3D EFFECT
+===================================================== */
+
+const directorCard =
+    document.querySelector(".director-card");
+
+const directorPhoto =
+    document.querySelector(".director-photo");
+
+
+if (directorCard && window.innerWidth > 800) {
+
+    directorCard.addEventListener(
+        "mousemove",
+        function(event) {
+
+            const rect =
+                directorCard.getBoundingClientRect();
+
+            const x =
+                event.clientX - rect.left;
+
+            const y =
+                event.clientY - rect.top;
+
+            const centerX =
+                rect.width / 2;
+
+            const centerY =
+                rect.height / 2;
+
+            const rotateX =
+                (centerY - y) / 100;
+
+            const rotateY =
+                (x - centerX) / 100;
+
+
+            directorCard.style.transform =
+                `
+                perspective(1200px)
+                rotateX(${rotateX}deg)
+                rotateY(${rotateY}deg)
+                translateY(-8px)
+                `;
+
+
+            if (directorPhoto) {
+
+                directorPhoto.style.transform =
+                    `
+                    translateZ(15px)
+                    `;
+
+            }
+
+        }
+    );
+
+
+    directorCard.addEventListener(
+        "mouseleave",
+        function() {
+
+            directorCard.style.transform = "";
+
+            if (directorPhoto) {
+
+                directorPhoto.style.transform = "";
+
+            }
+
+        }
+    );
+
+}
