@@ -1391,388 +1391,167 @@ img {
    12. PRINCIPAL
 ========================= */
 
-.principal-section {
-  background: #f0f5fa;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-.principal-box {
-  display: grid;
-
-  grid-template-columns:
-    0.7fr 1.3fr;
-
-  gap: 80px;
-
-  align-items: center;
-
-  padding: 60px;
-
-  background: var(--white);
-
-  border-radius: 32px;
-
-  box-shadow:
-    0 25px 70px rgba(14,40,70,0.08);
+body {
+    font-family: Arial, sans-serif;
+    background: #f5f8fc;
+    color: #10233f;
 }
 
-.principal-image {
-  height: 390px;
-
-  border-radius: 25px;
-
-  background:
-    linear-gradient(
-      145deg,
-      #0b3d91,
-      #07182d
-    );
-
-  display: grid;
-  place-items: center;
-
-  overflow: hidden;
+.leadership {
+    padding: 100px 20px;
 }
 
-.principal-placeholder {
-  width: 170px;
-  height: 170px;
-
-  border-radius: 50%;
-
-  display: grid;
-  place-items: center;
-
-  background: rgba(255,255,255,0.08);
-
-  border: 1px solid rgba(255,255,255,0.16);
-
-  color: var(--secondary);
-
-  font-size: 65px;
-}
-
-.principal-content blockquote {
-  font-family: "Playfair Display", serif;
-
-  font-size: 24px;
-
-  line-height: 1.6;
-
-  color: #35455b;
-
-  margin-bottom: 30px;
-}
-
-.principal-name strong {
-  display: block;
-  color: var(--dark);
-  font-size: 13px;
-}
-
-.principal-name span {
-  display: block;
-
-  margin-top: 5px;
-
-  color: var(--muted);
-
-  font-size: 11px;
-}
-/* /* =====================================================
-   DIRECTOR SECTION
-===================================================== */
-
-.director-section {
-    position: relative;
-    padding: 110px 0;
-
-    background:
-        linear-gradient(
-            135deg,
-            #f5f9ff,
-            #ffffff
-        );
-
-    overflow: hidden;
+.container {
+    width: min(1100px, 100%);
+    margin: auto;
 }
 
 
-/* Background decoration */
+/* =========================
+   SECTION TITLE
+========================= */
 
-.director-section::before {
-    content: "";
-
-    position: absolute;
-
-    width: 450px;
-    height: 450px;
-
-    border-radius: 50%;
-
-    background:
-        rgba(53, 183, 255, 0.08);
-
-    top: -180px;
-    right: -150px;
-
-    filter: blur(10px);
-
-    pointer-events: none;
-}
-
-
-.director-section::after {
-    content: "";
-
-    position: absolute;
-
-    width: 300px;
-    height: 300px;
-
-    border-radius: 50%;
-
-    background:
-        rgba(244, 180, 0, 0.06);
-
-    bottom: -150px;
-    left: -100px;
-
-    pointer-events: none;
-}
-
-
-/* =====================================================
-   HEADING
-===================================================== */
-
-.director-section .section-heading {
-    position: relative;
-
-    max-width: 700px;
-
-    margin:
-        0 auto 60px;
-
+.section-title {
     text-align: center;
-
-    z-index: 2;
+    margin-bottom: 60px;
 }
 
-
-.director-section
-.section-subtitle {
-
-    display: inline-block;
-
-    margin-bottom: 15px;
-
-    color: #0b3d91;
-
-    font-size: 11px;
-
+.section-title span {
+    color: #d99b00;
+    font-size: 12px;
     font-weight: 800;
-
     letter-spacing: 3px;
 }
 
+.section-title h1 {
+    margin: 15px 0;
 
-.director-section
-.section-heading h2 {
+    font-family: Georgia, serif;
 
-    margin: 0 0 18px;
-
-    color: #081b33;
-
-    font-family:
-        "Playfair Display",
-        serif;
-
-    font-size:
-        clamp(40px, 5vw, 62px);
-
-    line-height: 1.05;
+    font-size: clamp(40px, 6vw, 65px);
 }
 
-
-.director-section
-.section-heading h2 span {
-
-    color: #0b3d91;
+.section-title h1 strong {
+    color: #174b91;
 }
 
-
-.director-section
-.section-heading p {
-
-    max-width: 600px;
-
-    margin: auto;
-
-    color: #65748b;
-
+.section-title p {
+    color: #68788f;
     font-size: 14px;
-
-    line-height: 1.8;
 }
 
 
-/* =====================================================
-   DIRECTOR CARD
-===================================================== */
+/* =========================
+   LEADER CARD
+========================= */
 
-.director-card {
-
-    position: relative;
+.leader-card {
 
     display: grid;
 
     grid-template-columns:
-        0.9fr 1.1fr;
+        40% 60%;
 
-    max-width: 1100px;
+    min-height: 470px;
 
-    min-height: 520px;
-
-    margin: auto;
+    margin-bottom: 35px;
 
     overflow: hidden;
 
-    border-radius: 30px;
+    border-radius: 28px;
 
     background:
         linear-gradient(
             135deg,
             #07182d,
-            #0b3d91
+            #174b91
         );
 
     box-shadow:
-        0 30px 80px
+        0 25px 70px
         rgba(7, 40, 80, 0.18);
 
     transition:
-        transform 0.4s ease,
-        box-shadow 0.4s ease;
+        transform .3s ease,
+        box-shadow .3s ease;
 
     transform-style: preserve-3d;
-
-    z-index: 2;
 }
 
-
-.director-card:hover {
-
-    transform:
-        translateY(-8px);
+.leader-card:hover {
 
     box-shadow:
-        0 40px 100px
+        0 35px 90px
         rgba(7, 40, 80, 0.25);
 }
 
 
-/* =====================================================
-   DIRECTOR PHOTO
-===================================================== */
+/* =========================
+   IMAGE
+========================= */
 
-.director-photo {
-
-    position: relative;
-
-    min-height: 520px;
-
-    padding: 35px;
+.leader-image {
 
     display: flex;
 
     align-items: center;
-
     justify-content: center;
 
-    z-index: 2;
+    padding: 35px;
 }
 
-
-.director-photo::before {
-
-    content: "";
-
-    position: absolute;
-
-    width: 300px;
-    height: 300px;
-
-    border-radius: 50%;
-
-    background:
-        rgba(53, 183, 255, 0.16);
-
-    filter: blur(30px);
-
-    z-index: -1;
-}
-
-
-.director-photo img {
+.image-box {
 
     width: 100%;
+    max-width: 310px;
 
-    max-width: 350px;
+    height: 390px;
 
-    height: 420px;
+    display: flex;
 
-    object-fit: cover;
+    align-items: flex-end;
+    justify-content: center;
 
-    border-radius: 24px;
+    padding-bottom: 25px;
+
+    border-radius: 22px;
+
+    background:
+        radial-gradient(
+            circle at center,
+            #315f9d,
+            #081a30
+        );
 
     border:
         1px solid
-        rgba(255,255,255,0.18);
+        rgba(255,255,255,.15);
 
     box-shadow:
-        0 25px 60px
-        rgba(0,0,0,0.3);
+        0 20px 50px
+        rgba(0,0,0,.3);
 
     transition:
-        transform 0.5s ease;
+        transform .4s ease;
 }
 
-
-.director-card:hover
-.director-photo img {
+.leader-card:hover .image-box {
 
     transform:
-        scale(1.02)
-        translateZ(20px);
+        translateZ(25px);
 }
 
-
-/* =====================================================
-   DIRECTOR CONTENT
-===================================================== */
-
-.director-info {
-
-    position: relative;
-
-    padding:
-        70px 65px 60px 25px;
+.image-box span {
 
     color: white;
 
-    z-index: 3;
-}
-
-
-.director-label {
-
-    display: inline-block;
-
-    margin-bottom: 18px;
-
-    color: #f4b400;
-
-    font-size: 11px;
+    font-size: 10px;
 
     font-weight: 800;
 
@@ -1780,84 +1559,95 @@ img {
 }
 
 
-.director-info h3 {
+/* =========================
+   CONTENT
+========================= */
 
-    margin: 0 0 10px;
+.leader-content {
 
-    font-family:
-        "Playfair Display",
-        serif;
-
-    font-size:
-        clamp(40px, 4vw, 58px);
-
-    line-height: 1;
+    padding:
+        65px 60px 50px 20px;
 
     color: white;
 }
 
+.leader-content > small {
 
-.director-info h4 {
+    color: #f2b400;
 
-    margin: 0;
+    font-size: 10px;
+
+    font-weight: 800;
+
+    letter-spacing: 3px;
+}
+
+.leader-content h2 {
+
+    margin-top: 15px;
+
+    font-family: Georgia, serif;
+
+    font-size:
+        clamp(42px, 5vw, 60px);
+
+    line-height: 1;
+}
+
+.leader-content h3 {
+
+    margin-top: 10px;
 
     color:
-        rgba(255,255,255,0.55);
+        rgba(255,255,255,.5);
 
     font-size: 13px;
 
     font-weight: 500;
-
-    line-height: 1.7;
 }
 
+.line {
 
-.director-divider {
-
-    width: 65px;
-
+    width: 60px;
     height: 2px;
 
     margin: 28px 0;
 
-    background: #f4b400;
+    background: #f2b400;
 }
 
 
-/* =====================================================
-   DIRECTOR MESSAGE
-===================================================== */
+/* =========================
+   QUOTE
+========================= */
 
-.director-info blockquote {
+.quote {
 
-    margin: 0 0 25px;
+    max-width: 550px;
 
-    padding-left: 20px;
+    margin-bottom: 20px;
+
+    padding-left: 18px;
 
     border-left:
-        3px solid #f4b400;
+        3px solid #f2b400;
+
+    font-family: Georgia, serif;
 
     color:
-        rgba(255,255,255,0.9);
+        rgba(255,255,255,.9);
 
-    font-family:
-        "Playfair Display",
-        serif;
-
-    font-size: 20px;
+    font-size: 19px;
 
     line-height: 1.6;
 }
 
+.leader-content > p:not(.quote) {
 
-.director-info > p {
-
-    max-width: 600px;
-
-    margin: 0;
+    max-width: 560px;
 
     color:
-        rgba(255,255,255,0.55);
+        rgba(255,255,255,.55);
 
     font-size: 13px;
 
@@ -1865,11 +1655,11 @@ img {
 }
 
 
-/* =====================================================
+/* =========================
    SIGNATURE
-===================================================== */
+========================= */
 
-.director-signature {
+.signature {
 
     display: flex;
 
@@ -1877,138 +1667,84 @@ img {
 
     gap: 15px;
 
-    margin-top: 35px;
+    margin-top: 30px;
 }
 
-
-.signature-line {
+.signature > span {
 
     width: 45px;
-
     height: 2px;
 
-    background: #f4b400;
+    background: #f2b400;
 }
 
-
-.director-signature strong {
+.signature b {
 
     display: block;
-
-    color: white;
 
     font-size: 12px;
 }
 
-
-.director-signature small {
+.signature small {
 
     display: block;
 
     margin-top: 4px;
 
     color:
-        rgba(255,255,255,0.4);
+        rgba(255,255,255,.4);
 
     font-size: 10px;
 }
 
 
-/* =====================================================
-   TABLET
-===================================================== */
+/* =========================
+   MOBILE
+========================= */
 
-@media (max-width: 850px) {
+@media (max-width: 800px) {
 
-    .director-card {
+    .leader-card {
 
         grid-template-columns: 1fr;
 
     }
 
-
-    .director-photo {
-
-        min-height: auto;
+    .leader-image {
 
         padding:
-            35px 35px 0;
-
+            25px 25px 0;
     }
 
+    .image-box {
 
-    .director-photo img {
-
-        height: 380px;
-
+        height: 330px;
     }
 
-
-    .director-info {
+    .leader-content {
 
         padding:
-            45px 40px 55px;
-
+            40px 30px 45px;
     }
 
 }
 
+@media (max-width: 500px) {
 
-/* =====================================================
-   MOBILE
-===================================================== */
+    .leadership {
 
-@media (max-width: 600px) {
-
-    .director-section {
-
-        padding: 80px 0;
-
+        padding:
+            70px 15px;
     }
 
-
-    .director-section
-    .section-heading h2 {
+    .leader-content h2 {
 
         font-size: 42px;
-
     }
 
-
-    .director-photo {
-
-        padding:
-            25px 20px 0;
-
-    }
-
-
-    .director-photo img {
-
-        height: 330px;
-
-    }
-
-
-    .director-info {
-
-        padding:
-            40px 25px 45px;
-
-    }
-
-
-    .director-info h3 {
-
-        font-size: 40px;
-
-    }
-
-
-    .director-info blockquote {
+    .quote {
 
         font-size: 17px;
-
     }
 
 }
